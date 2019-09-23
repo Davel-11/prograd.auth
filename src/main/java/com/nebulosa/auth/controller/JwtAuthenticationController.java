@@ -1,7 +1,5 @@
 package com.nebulosa.auth.controller;
 
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +16,10 @@ import com.nebulosa.auth.service.JwtUserDetailsService;
 
 
 import com.nebulosa.auth.config.JwtTokenUtil;
-import com.nebulosa.auth.model.JwtRequest;
+import com.nebulosa.auth.model.User;
 import com.nebulosa.auth.model.JwtResponse;
+
+import javax.xml.ws.Response;
 
 @RestController
 @CrossOrigin
@@ -35,7 +35,7 @@ public class JwtAuthenticationController {
     private JwtUserDetailsService userDetailsService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -44,7 +44,9 @@ public class JwtAuthenticationController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        String rol = "admin";
+
+        return ResponseEntity.ok( new JwtResponse(token) );
     }
 
     private void authenticate(String username, String password) throws Exception {
