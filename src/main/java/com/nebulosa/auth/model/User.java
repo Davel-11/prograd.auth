@@ -9,6 +9,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String rol;
+    private JwtResponse tokenData;
 
     //need default constructor for JSON Parsing
     public User()
@@ -16,10 +17,19 @@ public class User implements Serializable {
 
     }
 
-    public User(String username, String password, String rol) {
+    public JwtResponse getTokenData() {
+        return tokenData;
+    }
+
+    public void setTokenData(JwtResponse tokenData) {
+        this.tokenData = tokenData;
+    }
+
+    public User(String username, String password, String rol, JwtResponse tokenData) {
         this.username = username;
         this.password = password;
         this.rol = rol;
+        this.tokenData = tokenData;
     }
 
     public String getRol() {

@@ -1,6 +1,7 @@
 package com.nebulosa.auth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -35,7 +36,7 @@ public class JwtAuthenticationController {
     private JwtUserDetailsService userDetailsService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
+    public ResponseEntity<User> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -45,8 +46,11 @@ public class JwtAuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         String rol = "admin";
+        JwtResponse tokenData = new JwtResponse(token);
 
-        return ResponseEntity.ok( new JwtResponse(token) );
+        User userInfo = new User(authenticationRequest.getUsername(), authenticationRequest.getPassword(), rol, tokenData  );
+        //new JwtResponse(token)
+        return new ResponseEntity<>( userInfo,  HttpStatus.OK );
     }
 
     private void authenticate(String username, String password) throws Exception {
