@@ -1,48 +1,71 @@
 package com.nebulosa.auth.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity(name = "user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Integer id;
+
     private String username;
+    private String email;
     private String password;
-    private String rol;
-    private JwtResponse tokenData;
+    private boolean student;
+    private boolean tutor;
 
     //need default constructor for JSON Parsing
-    public User()
-    {
-
-    }
-
-    public JwtResponse getTokenData() {
-        return tokenData;
-    }
-
-    public void setTokenData(JwtResponse tokenData) {
-        this.tokenData = tokenData;
-    }
-
-    public User(String username, String password, String rol, JwtResponse tokenData) {
-        this.username = username;
-        this.password = password;
-        this.rol = rol;
-        this.tokenData = tokenData;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
+    public User(){ }
 
     public User(String username, String password) {
         this.setUsername(username);
         this.setPassword(password);
+    }
+
+    public User(String username, String email, String password, boolean student, boolean tutor) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.student = student;
+        this.tutor = tutor;
+    }
+
+    //@Column(name = "student", nullable = true)
+    public boolean getStudent() {
+        return student;
+    }
+
+    public void setStudent(boolean student) {
+        this.student = student;
+    }
+
+    public boolean getTutor() {
+        return tutor;
+    }
+
+    public void setTutor(boolean tutor) {
+        this.tutor = tutor;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -59,5 +82,17 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", student=" + student +
+                ", tutor=" + tutor +
+                '}';
     }
 }
