@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "user")
-public class User implements Serializable {
+@Table(name = "user")
+public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -20,14 +21,14 @@ public class User implements Serializable {
     private boolean tutor;
 
     //need default constructor for JSON Parsing
-    public User(){ }
+    public UserInfo(){ }
 
-    public User(String username, String password) {
-        this.setUsername(username);
+    public UserInfo(String email, String password) {
+        this.setEmail(email);
         this.setPassword(password);
     }
 
-    public User(String username, String email, String password, boolean student, boolean tutor) {
+    public UserInfo(String username, String email, String password, boolean student, boolean tutor) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -86,7 +87,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserInfo{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
